@@ -41,6 +41,11 @@
         <!-- Custom CSS -->
 
         <link rel="stylesheet" href="css/style.css">
+        <!-- Javascript files -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jsfunction.js"></script>
 
     </head>
 
@@ -68,23 +73,23 @@
 
                 </div>
                 <!-- Design recipe -->
-<?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+                <?php
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
 
-/**
- * Notas: En la vista de la receta, los check están por defecto, igual que los ingrediente, tags
- * y las calorías. En ninguno de los casos hay referencias en la BD a estos apartados (en el caso de las
- * calorías están numéricamente pero no sabemos a partir de cuántas calorías se considería
- * alta, baja, media, etc.
- *
- * Respecto a la navegación, el botón de my recipes solo funciona desde home, además, recipebook tiene un
- * enlace roto
- */
-foreach ($result as $item) {
+                /**
+                 * Notas: En la vista de la receta, los check están por defecto, igual que los ingrediente, tags
+                 * y las calorías. En ninguno de los casos hay referencias en la BD a estos apartados (en el caso de las
+                 * calorías están numéricamente pero no sabemos a partir de cuántas calorías se considería
+                 * alta, baja, media, etc.
+                 *
+                 * Respecto a la navegación, el botón de my recipes solo funciona desde home, además, recipebook tiene un
+                 * enlace roto
+                 */
+                foreach ($result as $item) {
 
-    echo '<div id="recipe_' . $item['id'] . '" class="information_recipe_view" style="display:none;">
+                    echo '<div id="recipe_' . $item['id'] . '" class="information_recipe_view" style="display:none;">
 
             <div id="my_img_recipe_view"><img src="' . $item['img'] . '" style="margin:20px 20px 180px 0; float:left;"
                                               alt="Generic placeholder image" width="350" height="350"></div>
@@ -146,43 +151,30 @@ foreach ($result as $item) {
                 <hr>
                 <p style="margin:10px 0 0 380px" ;><b>COMMENTS</b>';
 
-    foreach ($rescomm as $comment) {
-        echo '<p id="comments_view" style="margin:10px 0 0 380px" ;> ';
-        if ($comment['id_recipe'] == $item['id']) {
-             echo $comment["texto"];
-            if ($comment['id_user'] == $_SESSION['id']) {
-                //EDITAR COMENTARIO PROPRIO
-                echo'<input type="submit" class="btn btn-success" style="width:100%;" value="Edit" data-target="edit_modal">
-                    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="edit_modal"><b>Edit</b></h4>
-                                    </div>
-						<form action = "editar.php" method="post">
-					<div class="modal-body">
-                                            <div class="form-group">
-                                            <input type="hidden" name="num_comm" value="' . $comment['id'] . '">
-                                                <label for="texto">Nuevo Texto</label>
-                                                 <textarea id="send_comment_view" style="resize:none; margin:0px 0 0 380px;"
-                                                 name="send_comment_view" cols=110 rows=3 placeholder="' . $comment['texto'] . '"></textarea>
-                                            </div>
-                                           </div>
-					<div class="modal-footer">
-                               
-					
-										</div>
-									</form>
-                                </div>
-                            </div>
-                        </div>';
-                }
-         
-        }
-    }
-    //COMENTARIO 
-    echo '</p></p>
+                    foreach ($rescomm as $comment) {
+                        echo '<p id="comments_view" style="margin:10px 0 0 380px" ;> ';
+                        if ($comment['id_recipe'] == $item['id']) {
+                            echo '<b>Comment Made by <i>'; echo $comment['name_user']; echo'</i>:</b><br>';
+                            echo $comment["texto"];
+                            if ($comment['id_user'] == $_SESSION['id']) {
+                                echo' <div class="form-group">
+                         <form action = "editar_comentario.php" method="post">
+		            <input type="hidden" name="num_comm" value="' . $comment['id'] . '"><br>
+                             <label for="texto" style="margin-left:380px">You Can Edit Your Comment</label>
+                               <textarea id="send_comment_view" style="resize:none; margin:0px 0 0 380px;"
+                                 name="send_comment_view" cols=110 rows=3 placeholder="' . $comment['texto'] . '"></textarea>
+                                 <input type="submit" class="btn btn-success" style="width:20%; margin-left:380px" value="Edit">                               
+                           </form>
+                           <form action = "eliminar_comentario.php" method="post">
+                            <input type="hidden" name="num_comm" value="' . $comment['id'] . '"><br>
+                            <input type="submit" class="btn btn-success" style="width:20%; margin-left:380px" value="Delete">                    
+                           </form>
+			</div>';
+                            }
+                        }
+                    }
+                    //COMENTARIO 
+                    echo '</p><label for="texto" style="margin-left:380px">Write Your Comment</label></p>
                 <br>
                 <div class="form-group">
                 <form action="insertar_comentario.php" method="post">
@@ -194,15 +186,10 @@ foreach ($result as $item) {
                  </div>
             </div>
         </div>';
-}
-?>
+                }
+                ?>
             </div>
         </div>
-        <!-- Javascript files -->
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jsfunction.js"></script>
 
     </body>
 </html>

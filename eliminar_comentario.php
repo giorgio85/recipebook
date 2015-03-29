@@ -3,7 +3,7 @@ if(session_status() == PHP_SESSION_NONE){
     session_start();
 }
     // Primero comprobamos que ningún campo esté vacío y que todos los campos existan.
-    if(isset($_POST['send_comment_view']) && !empty($_POST['send_comment_view'])) {
+   
 
         // Si entramos es que todo se ha realizado correctamente
 
@@ -13,12 +13,9 @@ if(session_status() == PHP_SESSION_NONE){
        if (!mysqli_select_db($iden,"recipebook"))
         die("Error: No existe la base de datos");
         // Con esta sentencia SQL insertaremos los datos en la base de datos
-       $comentario= $_POST['send_comment_view'];
-       $sid=$_SESSION['id'];
-       $nombre=$_SESSION['user'];
-       //$receta=$_SESSION['rec'];
-       $receta=$_POST['num_recipe'];
-       $sentence = "INSERT INTO comment (texto, id_user, name_user, id_recipe) VALUES ('$comentario','$sid', '$nombre', '$receta')";
+       $idcomm=$_POST['num_comm'];
+       //UPDATE Customers SET ContactName='Alfred Schmidt', City='Hamburg' WHERE CustomerName='Alfreds Futterkiste'; 
+       $sentence="DELETE FROM comment WHERE id ='$idcomm'";
          mysqli_query($iden,$sentence);
          $commentId = mysqli_insert_id($iden);
         // Ahora comprobaremos que todo ha ido correctamente
@@ -30,14 +27,9 @@ if(session_status() == PHP_SESSION_NONE){
 
         } else {
 
-            echo "Los datos han sido introducidos satisfactoriamente";
+            echo "Se ha eliminado el comentario";
 header('location:index2.php');
         }
 
-    } else {
-
-        echo "Error, no ha introducido todos los datos";
-
-    }
-
+   
 ?>
