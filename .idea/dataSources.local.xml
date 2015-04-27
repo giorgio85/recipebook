@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - recipebook@localhost" uuid="20e96bff-7ea2-4dc4-9bf6-9bbfab9b7a84">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>recipebook.*</schema-pattern>
+      <default-schemas>recipebook.*</default-schemas>
+    </data-source>
+  </component>
+</project>
