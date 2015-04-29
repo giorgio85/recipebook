@@ -242,14 +242,90 @@ if (session_status() == PHP_SESSION_NONE) {
 															  alt="Generic placeholder image" width="350" height="350"></div>
 							<div class="form-group">
 								<b><p id="name_recipe_view" style="margin-top:10px;">' . $item["name"] . '</p></b>';
-									//BOTON ELIMINAR RECETA
+									
+								
 								 if (isset($_SESSION['user'])){
-                                    if ($item['userid'] == $_SESSION['id']) {
-                                        echo' <form action = "delete_recipe.php" method="post">
+									   if ($item['userid'] == $_SESSION['id']) {
+									 //BOTON EDITAR RECETA
+								echo' <div class="form-group">
+											<div id="boton edit" style="float:right;">
+											<button type="button" data-toggle="modal" data-target="#EditRecipe_modal"'. $cont . '"style="margin: 0 0 0 0px; float:right;"><img  style="width:20px; height:20px;" src="img/edit.png"></button>
+											</div>
+											<!-- Modal -->
+											<div class="modal fade" id="EditRecipe_modal" tabindex="-1" role="dialog" aria-labelledby="login_modal" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="newRecipe_modal"><img src="img/icon-recipe.png" style="height:40px; width: 40px; float:left"><b> &nbsp;Edit Your Recipe</b></h4>
+								</div>
+								<div class="modal-body">
+									<form id="form_new_recipe" action="CreateRecipe.php" method="post" enctype="multipart/form-data">
+										<div class="form-group">
+											<input type="text" class="form-control" id="name_recipe" name="recipeName" value="' . $item['name'] . '">
+										</div>
+
+										<div class="form-group">
+											<textarea id="description" name="recipeDescription" rows=3 style=" resize: none; width:100%;">' . $item['description'] . '</textarea>
+										</div>
+
+										<div class="form-group">
+
+											<input type="file" id="inputFile" name="inputFile" style="float:right; width: 260px; margin: 0 0px 0 0 " value="' . $item['img'] . '">
+
+											<label class="checkbox-inline">
+												<input type="checkbox" id="inlineCheckbox1" name="breakfastCheckbox" value="option1" style="float:left;">Breakfast
+											</label>
+
+											<label class="checkbox-inline">
+												<input type="checkbox" id="inlineCheckbox2" name="lunchCheckbox" value="option2" style="float:left;">Lunch
+											</label>
+
+											<label class="checkbox-inline">
+												<input type="checkbox" id="inlineCheckbox3" name="snackCheckbox" value="option3" style="float:left;">Snack
+											</label>
+
+											<label class="checkbox-inline">
+												<input type="checkbox" id="inlineCheckbox3" name="dinnerCheckbox" value="option3" style="float:left;">Dinner
+											</label>
+										</div>
+
+										<div class="form-group">
+											  <input type="text" class="form-control" id="time_recipe" name="recipeTime" value="' . $item['preparation_time'] . '" style="width: 100px; float:right; margin: 0 10px 15px 0"><img src="img/time.png" style="height:30px; width: 30px; float:right"class="img-circle">
+											  <input type="text" class="form-control" id="person_recipe" name="recipePerson" value="' . $item["number_person"] . '" style="width: 100px; float:right; margin: 0 10px 15px 0 "><img src="img/person.png" style="height:30px; width: 30px; float:right"class="img-circle">
+											  <input type="text" class="form-control" id="calories_recipe" name="recipeCalories" value="' . $item["calories"] . '" style="width: 100px; float:right; margin: 0 10px 15px 0 "><img src="img/kcal.png" style="height:30px; width: 30px; float:right"class="img-circle">
+											  <img src="img/level.jpg" style="height:30px; width: 30px; float:left"class="img-circle">
+											  <select class="form-control" id="difficulty_recipe" name="recipeDifficulty" style="width: 100px; float:left; margin: 0 10px 15px 0 ">
+												  <option> Easy </option>
+												  <option> Medium </option>
+												  <option> Hard </option>
+											  </select>
+										</div>
+										<div class="form-group">
+											<textarea id="instructions" name="recipeInstructions" rows=4 style=" resize: none; width:100%;" >' . $item["instructions"] . '</textarea>
+										</div>
+										<div class="form-group">
+											<textarea id="ingredients" name="recipeIngredients"  rows=3 style=" resize: none; width:100%;" > ' . $item["ingredients"] . '</textarea>
+										</div>
+										<div class="form-group">
+											<textarea id="description" name="recipeLabels"  rows=3 style=" resize: none; width:100%;" placeholder=" &nbsp;Enter tags separated by commas"></textarea>
+										</div>
+										<div class="modal-footer">
+								            <input type="submit" name="createRecipe" class="btn btn-success" style="width:100%;" value="Edit"/>
+								        </div>
+									</form>
+								</div>
+
+							</div>
+						</div>
+					</div>';
+										
+										//ELIMINAR RECETA
+										echo'<form action = "delete_recipe.php" method="post">
                                         <input type="hidden" name="num_rec" value="' . $item['id'] . '"><br>
                                         <input type="image" src="img/delete.png" style="width:2%; margin: -20px 25px 0 0px; float:right;" value="Delete">                    
-                                        </form>';
-								 }
+                                        </form></div>';
+									}
 								 }
                                     echo '
 								<p id="description_view" style="margin: 0 0 20px  0;">
